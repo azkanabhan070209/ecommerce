@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pesanan #{{ pesanan.id_pesanan }} | TOKO ILHAM</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --light-bg: #f4f7fe;
+            --card-border-radius: 24px;
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container Card Utama */
+        .main-card {
+            border: none;
+            border-radius: var(--card-border-radius);
+            background: white;
+            box-shadow: 0 10px 30px rgba(9, 13, 22, 0.03);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Info Logistik Box */
+        .info-shipping-box {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+        }
+
+        /* Kustomisasi Lencana Status */
+        .badge-status {
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: capitalize;
+        }
+        .status-pending { background-color: #fffbeb; color: #d97706; }
+        .status-diproses { background-color: #eff6ff; color: #2563eb; }
+        .status-dikirim { background-color: #ecfeff; color: #0891b2; }
+        .status-selesai { background-color: #f0fdf4; color: #16a34a; }
+
+        /* Item Row Styling */
+        .product-item-row {
+            padding: 16px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .product-item-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .img-wrapper {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Footer Total Pembayaran */
+        .total-summary-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            display: inline-block;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5 mb-5">
+    
+    <div class="mb-4">
+        {% if session['role'] == 'admin' %}
+            <a href="/admin/pesanan" class="text-decoration-none text-muted fw-semibold small">
+                <i class="bi bi-arrow-left-circle-fill me-1 text-primary fs-6 align-middle"></i> Kembali ke Manajemen Pesanan
+            </a>
+        {% else %}
+            <a href="/pesanan" class="text-decoration-none text-muted fw-semibold small">
+                <i class="bi bi-arrow-left-circle-fill me-1 text-primary fs-6 align-middle"></i> Kembali ke Riwayat Pesanan
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="card main-card p-4 p-md-5">
+        
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold text-dark m-0">Detail Transaksi Nota</h2>
+                <p class="text-muted small m-0">ID Invoice Marketplace: <span class="fw-bold text-secondary">#{{ pesanan.id_pesanan }}</span></p>
+            </div>
+            
+            <div>
+                {% if pesanan.status == 'pending' %}
+                    <span class="badge-status status-pending">
+                        <i class="bi bi-clock-history"></i> Pending Verifikasi
+                    </span>
+                {% elif pesanan.status == 'diproses' %}
+                    <span class="badge-status status-diproses">
+                        <i class="bi bi-gear-fill"></i> Sedang Diproses
+                    </span>
+                {% elif pesanan.status == 'dikirim' %}
+                    <span class="badge-status status-dikirim">
+                        <i class="bi bi-truck"></i> Dalam Pengiriman
+                    </span>
+                {% else %}
+                    <span class="badge-status status-selesai">
+                        <i class="bi bi-check-circle-fill"></i> Pesanan Selesai
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="info-shipping-box shadow-sm mb-5">
+            <h6 class="fw-bold text-dark mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Lokasi Tujuan Pengiriman:</h6>
+            <p class="m-0 text-secondary small" style="line-height: 1.6; white-space: pre-line;">
+                {{ pesanan.alamat }}
+            </p>
+        </div>
+
+        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-bag-check-fill text-primary me-2"></i>Daftar Item Belanja</h5>
+        
+        <div class="d-flex flex-column mb-5 border-top border-bottom border-light-subtle">
+            {% for item in detail %}
+            <div class="row product-item-row align-items-center g-3">
+                
+                <div class="col-3 col-md-2 col-lg-1">
+                    <div class="img-wrapper shadow-sm">
+                        <img src="{{ url_for('static', filename='upload/' + item.foto) }}" class="img-fluid rounded-3" style="max-height: 70px; object-fit: contain;" alt="{{ item.nama_produk }}">
+                    </div>
+                </div>
+                
+                <div class="col-9 col-md-6 col-lg-7">
+                    <h6 class="fw-bold text-dark m-0 mb-1">{{ item.nama_produk }}</h6>
+                    <span class="text-muted small fw-medium">Jumlah Beli: <strong class="text-dark">{{ item.qty }}</strong> unit barang</span>
+                </div>
+                
+                <div class="col-12 col-md-4 col-lg-4 text-md-end">
+                    <span class="text-muted small d-md-block mb-1">Subtotal</span>
+                    <h5 class="fw-bold text-primary m-0">
+                        Rp {{ "{:,}".format(item.subtotal) }}
+                    </h5>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-end">
+            <div class="total-summary-box text-start shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="text-secondary small fw-medium">Metode Pembayaran</span>
+                    <span class="small fw-bold text-dark">COD</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary border-opacity-25">
+                    <span class="text-dark fw-bold me-4">Total Akhir Tagihan:</span>
+                    <h3 class="fw-extrabold text-dark m-0" style="font-weight: 800;">
+                        Rp {{ "{:,}".format(pesanan.total_harga) }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

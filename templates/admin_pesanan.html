@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pesanan Admin | TOKO ILHAM</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --dark-slate: #0f172a;
+            --light-bg: #f8fafc;
+            --card-border-radius: 16px;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #334155;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, #0f172a, #1e293b) !important;
+            padding: 18px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            letter-spacing: 1.5px;
+            background: linear-gradient(45deg, #38bdf8, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Container Card Utama */
+        .main-card {
+            border: none;
+            border-radius: var(--card-border-radius);
+            background: white;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03);
+            overflow: hidden;
+        }
+
+        /* Desain Tabel */
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background-color: #f8fafc !important;
+            color: #475569;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            padding: 16px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .table td {
+            padding: 16px;
+            color: #334155;
+            font-size: 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* ID Pesanan Style */
+        .order-id {
+            font-family: monospace;
+            font-weight: 700;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        /* Kustomisasi Lencana Status */
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .status-pending { background-color: #fffbeb; color: #d97706; }
+        .status-diproses { background-color: #eff6ff; color: #2563eb; }
+        .status-dikirim { background-color: #ecfeff; color: #0891b2; }
+        .status-selesai { background-color: #f0fdf4; color: #16a34a; }
+
+        /* Form di dalam Tabel */
+        .form-select-sm {
+            border-radius: 8px;
+            font-size: 13px;
+            border: 1px solid #cbd5e1;
+            padding: 6px 10px;
+        }
+
+        /* Tombol */
+        .btn {
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold">
+            <i class="bi bi-receipt-cutoff me-2"></i>ADMIN PESANAN
+        </a>
+        
+        <div class="d-flex align-items-center gap-2">
+            <a href="/admin/produk" class="btn btn-outline-light">
+                <i class="bi bi-box-seam me-1"></i> Data Produk
+            </a>
+            <a href="/logout" class="btn btn-danger">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5 mb-5">
+    
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark m-0">Manajemen Logistik & Pesanan</h2>
+        <p class="text-muted small m-0">Pantau aktivitas transaksi dan kelola status pengiriman produk pelanggan</p>
+    </div>
+
+    <div class="card main-card shadow-sm">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th width="100">ID Pesanan</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Total Pembayaran</th>
+                        <th width="300">Alamat Pengiriman</th>
+                        <th>Status Saat Ini</th>
+                        <th width="180">Aksi Perubahan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pesanan %}
+                    <tr>
+                        <td>
+                            <span class="order-id">#{{ p.id_pesanan }}</span>
+                        </td>
+                        
+                        <td class="fw-semibold text-dark">
+                            {{ p.nama }}
+                        </td>
+                        
+                        <td class="fw-bold text-dark">
+                            Rp {{ "{:,}".format(p.total_harga) }}
+                        </td>
+                        
+                        <td class="text-secondary" style="font-size: 13px; line-height: 1.4;">
+                            {{ p.alamat }}
+                        </td>
+                        
+                        <td>
+                            {% if p.status == 'pending' %}
+                                <span class="badge-status status-pending">
+                                    <i class="bi bi-clock-history"></i> Pending
+                                </span>
+                            {% elif p.status == 'diproses' %}
+                                <span class="badge-status status-diproses">
+                                    <i class="bi bi-gear-fill"></i> Diproses
+                                </span>
+                            {% elif p.status == 'dikirim' %}
+                                <span class="badge-status status-dikirim">
+                                    <i class="bi bi-truck"></i> Dikirim
+                                </span>
+                            {% else %}
+                                <span class="badge-status status-selesai">
+                                    <i class="bi bi-check-circle-fill"></i> Selesai
+                                </span>
+                            {% endif %}
+                        </td>
+                        
+                        <td>
+                            <form method="POST" action="/admin/update_status/{{ p.id_pesanan }}">
+                                <div class="d-flex flex-column gap-1">
+                                    <select name="status" class="form-select form-select-sm">
+                                        <option value="pending" {% if p.status == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="diproses" {% if p.status == 'diproses' %}selected{% endif %}>Diproses</option>
+                                        <option value="dikirim" {% if p.status == 'dikirim' %}selected{% endif %}>Dikirim</option>
+                                        <option value="selesai" {% if p.status == 'selesai' %}selected{% endif %}>Selesai</option>
+                                    </select>
+                                    <button class="btn btn-primary btn-sm py-1" style="font-size: 12px;">
+                                        <i class="bi bi-arrow-repeat me-1"></i> Perbarui
+                                    </button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Ilham | Belanja Nyaman Harga Aman</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --accent-gradient: linear-gradient(135deg, #ff007a 0%, #7928ca 100%);
+            --dark-slate: #090d16;
+            --navbar-bg: rgba(9, 13, 22, 0.9);
+            --light-bg: #f4f7fe;
+            --card-border-radius: 20px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar Premium Glassmorphism */
+        .navbar {
+            background: var(--navbar-bg) !important;
+            padding: 16px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(45deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Carousel Hero Banner dengan Soft Shadow */
+        .hero-carousel {
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .carousel-item {
+            height: 420px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(9,13,22,0.9) 25%, rgba(9,13,22,0.4) 70%, rgba(9,13,22,0) 100%);
+            display: flex;
+            align-items: center;
+            padding-left: 80px;
+            color: white;
+        }
+
+        /* Form Pencarian Elegan */
+        .search-section {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.03);
+            border: 1px solid #eef2f6;
+        }
+
+        .form-control, .form-select {
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            padding: 14px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: #f8fafc;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: white;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Smooth Kategori Scroll Pill Buttons */
+        .kategori-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 5px 2px 12px 2px;
+        }
+        .kategori-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .kategori-btn {
+            border-radius: 30px;
+            padding: 10px 24px;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+            transition: var(--transition-smooth);
+        }
+
+        .kategori-btn:hover, .kategori-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Card Produk Premium Floating Effect */
+        .card-produk {
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: var(--card-border-radius);
+            overflow: hidden;
+            background: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card-produk:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 22px 40px rgba(9, 13, 22, 0.08);
+            border-color: rgba(37, 99, 235, 0.2);
+        }
+
+        .gambar-container {
+            overflow: hidden;
+            position: relative;
+            background-color: #f8fafc;
+            border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+        }
+
+        .gambar-produk {
+            height: 240px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-produk:hover .gambar-produk {
+            transform: scale(1.08);
+        }
+
+        .badge-promo {
+            position: absolute;
+            top: 14px; left: 14px;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(255, 0, 122, 0.25);
+        }
+
+        /* Detail & Tipografi di Dalam Card */
+        .card-body {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .kategori-badge {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #2563eb;
+            background: #eff6ff;
+            padding: 5px 12px;
+            border-radius: 8px;
+            width: fit-content;
+            font-weight: 700;
+        }
+
+        .nama-produk {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.5;
+            margin-top: 10px;
+            margin-bottom: 6px;
+            min-height: 45px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.2s ease;
+        }
+
+        .card-produk:hover .nama-produk {
+            color: #2563eb;
+        }
+
+        .harga {
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 21px;
+            letter-spacing: -0.5px;
+            margin: 4px 0;
+        }
+
+        .rating-box {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stok-info {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 10px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Premium Buttons */
+        .btn {
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 12px 24px;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-outline-primary {
+            border: 1.5px solid #e2e8f0;
+            color: #475569;
+            background: #fff;
+        }
+
+        .card-produk:hover .btn-outline-primary {
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-gradient) !important;
+            color: white !important;
+            border-color: transparent !important;
+        }
+
+        /* Unique Selling Proposition (USP) Boxes */
+        .usp-box {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+            border: 1px solid #eef2f6;
+            transition: var(--transition-smooth);
+        }
+
+        .usp-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.03);
+        }
+
+        .usp-icon-wrapper {
+            width: 64px; height: 64px;
+            background: #f0f6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px auto;
+        }
+
+        .usp-icon {
+            font-size: 26px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Footer Modern Slate */
+        footer {
+            background: var(--dark-slate);
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        footer h5 {
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        footer a:hover {
+            color: #38bdf8;
+        }
+        .social-icon {
+            width: 38px; height: 38px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: var(--transition-smooth);
+        }
+        .social-icon:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-lightning-charge-fill me-1 text-warning"></i>TOKO ILHAM
+        </a>
+        
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+                {% if session.get('user_id') %}
+                    {% if session['role'] == 'admin' %}
+                        <a href="/admin/produk" class="btn btn-warning text-dark shadow-sm">
+                            <i class="bi bi-speedometer2 me-1"></i> Admin Dashboard
+                        </a>
+                    {% else %}
+                        <a href="/keranjang" class="btn btn-outline-light border-secondary position-relative px-3">
+                            <i class="bi bi-cart3 me-1"></i> Keranjang
+                        </a>
+                        <a href="/pesanan" class="btn btn-info text-white shadow-sm">
+                            <i class="bi bi-box-seam me-1"></i> Pesanan
+                        </a>
+                    {% endif %}
+                    <a href="/logout" class="btn btn-danger shadow-sm">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                {% else %}
+                    <a href="/login" class="btn btn-outline-light border-secondary px-4">Masuk</a>
+                    <a href="/register" class="btn btn-primary px-4">Daftar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div id="heroBanner" class="carousel slide hero-carousel" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroBanner" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroBanner" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroBanner" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=1200');">
+                <div class="carousel-overlay">
+                    <div class="col-lg-6">
+                        <span class="badge bg-danger mb-3 px-3 py-2 text-uppercase fw-bold shadow-sm">Mega Sale 5.5</span>
+                        <h1 class="display-4 fw-extrabold text-white m-0 tracking-tight" style="font-weight:800;">Diskon Gila <br>Hingga 70%</h1>
+                        <p class="text-white-50 mt-3 mb-4 fs-5">Dapatkan produk impianmu dengan harga termurah se-Indonesia + Gratis Ongkir instan!</p>
+                        <a href="#produk-section" class="btn btn-primary btn-lg px-4 py-3">Belanja Sekarang <i class="bi bi-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200');">
+                <div class="carousel-overlay">
+                    <div class="col-lg-6">
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 text-uppercase fw-bold shadow-sm">New Arrival</span>
+                        <h1 class="display-4 text-white m-0" style="font-weight:800;">Koleksi Tren<br>Terbaru 2026</h1>
+                        <p class="text-white-50 mt-3 mb-4 fs-5">Tampil percaya diri dan eksklusif setiap hari dengan produk rilis teranyar dunia fashion.</p>
+                        <a href="#produk-section" class="btn btn-primary btn-lg px-4 py-3">Lihat Koleksi</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1472851294608-062f824d288b?q=80&w=1200');">
+                <div class="carousel-overlay">
+                    <div class="col-lg-6">
+                        <span class="badge bg-success mb-3 px-3 py-2 text-uppercase fw-bold shadow-sm">Garansi 100%</span>
+                        <h1 class="display-4 text-white m-0" style="font-weight:800;">Produk Original &amp;<br>Bergaransi Resmi</h1>
+                        <p class="text-white-50 mt-3 mb-4 fs-5">Jaminan uang kembali penuh tanpa potongan jika barang terbukti tiruan atau rusak.</p>
+                        <a href="#produk-section" class="btn btn-primary btn-lg px-4 py-3">Cari Produk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5" id="produk-section">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm border-0 rounded-4 mb-4">
+                    <i class="bi bi-info-circle-fill me-2 text-primary"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="search-section">
+                <form method="GET">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0 text-muted ps-3">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" name="cari" class="form-control border-start-0 ps-1" placeholder="Cari produkmu hari ini">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="rating" class="form-select">
+                                <option value="">Urutkan Berdasarkan</option>
+                                <option value="tertinggi">⭐ Rating Tertinggi</option>
+                                <option value="terendah">⭐ Rating Terendah</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100 h-100 py-2">Terapkan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h6 class="text-dark fw-bold text-uppercase mb-3 px-1" style="letter-spacing: 1.5px; font-size:12px;">Jelajahi Kategori</h6>
+        <div class="kategori-scroll">
+            <a href="/" class="kategori-btn active">Semua Produk</a>
+            {% for k in kategori %}
+                <a href="/?kategori={{ k.id_kategori }}" class="kategori-btn">
+                    {{ k.nama_kategori }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold text-dark m-0"><i class="bi bi-stars text-warning me-2"></i>Produk Rekomendasi Terpopuler</h4>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for p in produk %}
+        <div class="col">
+            <div class="card card-produk">
+                <div class="gambar-container">
+                    <span class="badge-promo">SPECIAL DEAL</span>
+                    <img src="{{ url_for('static', filename='upload/' + p.foto) }}" class="gambar-produk" alt="{{ p.nama_produk }}">
+                </div>
+                
+                <div class="card-body">
+                    <span class="kategori-badge">{{ p.nama_kategori }}</span>
+                    <h5 class="nama-produk">{{ p.nama_produk }}</h5>
+                    
+                    <h4 class="harga">Rp {{ "{:,}".format(p.harga) }}</h4>
+
+                    <div class="d-flex align-items-center justify-content-between mt-1">
+                        <div class="rating-box">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <span class="fw-bold text-dark">{{ "%.1f"|format(p.rata_rating or 0) }}</span>
+                            <span class="text-muted" style="font-size:11px;">(1.2rb+ Terjual)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stok-info">
+                        <i class="bi bi-layers-half text-muted"></i>
+                        <span>Sisa Stok: <strong class="text-dark">{{ p.stok }}</strong> pcs</span>
+                    </div>
+                    
+                    <div class="d-grid mt-auto">
+                        <a href="/detail_produk/{{ p.id_produk }}" class="btn btn-outline-primary py-2.5">
+                            <i class="bi bi-cart-plus me-1"></i> Detail &amp; Beli
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row g-4 my-5 pt-5">
+        <div class="col-md-4">
+            <div class="usp-box">
+                <div class="usp-icon-wrapper"><i class="bi bi-truck-flatbed usp-icon"></i></div>
+                <h5 class="fw-bold text-dark">Gratis Ongkir Instan</h5>
+                <p class="text-muted small m-0">Pengiriman cepat tanpa biaya tambahan ke seluruh wilayah administrasi Indonesia.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="usp-box">
+                <div class="usp-icon-wrapper"><i class="bi bi-shield-lock-fill usp-icon"></i></div>
+                <h5 class="fw-bold text-dark">Transaksi Terenkripsi</h5>
+                <p class="text-muted small m-0">Sistem keamanan bank tier-1 menjamin privasi finansial data Anda selalu terjaga aman.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="usp-box">
+                <div class="usp-icon-wrapper"><i class="bi bi-headset usp-icon"></i></div>
+                <h5 class="fw-bold text-dark">Customer Service 24 Jam</h5>
+                <p class="text-muted small m-0">Tim support profesional kami siaga mendampingi kendala transaksi belanja Anda kapan saja.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="py-5 mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-5 col-md-12">
+                <h5 class="mb-3 text-uppercase tracking-wider text-white">TOKO ILHAM</h5>
+                <p class="text-muted pe-lg-4" style="line-height: 1.7;">Membangun ekosistem belanja online yang terintegrasi, transparan, dan ekonomis. Kami berkomitmen memberikan kualitas pelayanan produk orisinal terbaik di tanah air.</p>
+                <div class="d-flex gap-2 mt-4">
+                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 offset-lg-1 col-md-6">
+                <h5 class="text-white mb-3">Layanan Korporasi</h5>
+                <ul class="list-unstyled d-flex flex-column gap-2.5">
+                    <li><a href="#">Pusat Bantuan Konsumen</a></li>
+                    <li><a href="#">Aturan Penggunaan Layanan</a></li>
+                    <li><a href="#">Kebijakan Pelacakan Data</a></li>
+                    <li><a href="#">Klaim Pengembalian Dana</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-3 col-md-6">
+                <h5 class="text-white mb-3">Gerbang Pembayaran</h5>
+                <p class="text-muted small mb-3">Mendukung otomatisasi verifikasi transaksi instan:</p>
+                <div class="d-flex flex-wrap gap-3 text-muted fs-3">
+                    <i class="bi bi-credit-card" title="Kartu Kredit/Debit"></i>
+                    <i class="bi bi-wallet" title="Dompet Digital"></i>
+                    <i class="bi bi-qr-code-scan" title="QRIS Standar Bank Indonesia"></i>
+                    <i class="bi bi-bank" title="Virtual Account Transfer"></i>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.07);">
+        <div class="text-center text-muted small">
+            &copy; 2026 Toko Ilham Marketplace Ecosystem. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

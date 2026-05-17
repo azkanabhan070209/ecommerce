@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ produk.nama_produk }} | TOKO ILHAM</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --light-bg: #f4f7fe;
+            --card-border-radius: 24px;
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container & Cards */
+        .main-card {
+            border: none;
+            border-radius: var(--card-border-radius);
+            background: white;
+            box-shadow: 0 10px 30px rgba(9, 13, 22, 0.03);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Foto Produk Showcase */
+        .image-showcase {
+            background-color: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            position: sticky;
+            top: 20px;
+        }
+
+        .product-img {
+            max-height: 450px;
+            object-fit: contain;
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        /* Detailing Teks */
+        .kategori-badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2563eb;
+            background: #eff6ff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            width: fit-content;
+            font-weight: 700;
+        }
+
+        .nama-produk {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.3;
+            margin-top: 12px;
+        }
+
+        .rating-utama {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .harga-display {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        .deskripsi-box {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #475569;
+            white-space: pre-line; /* Menjaga line break deskripsi asli */
+        }
+
+        /* Input Qty & Form Beli */
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 14px 28px;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            border: none;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #065f46 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: none;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        /* Review Section Items */
+        .review-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .reviewer-avatar {
+            width: 40px; height: 40px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5 mb-5">
+    
+    <div class="mb-4">
+        <a href="/" class="text-decoration-none text-muted fw-semibold small">
+            <i class="bi bi-arrow-left-circle-fill me-1 text-primary fs-6 align-middle"></i> Kembali Jelajahi Toko
+        </a>
+    </div>
+
+    <div class="card main-card p-4 p-md-5 mb-4">
+        <div class="row g-5">
+            
+            <div class="col-lg-5">
+                <div class="image-showcase shadow-sm">
+                    <img src="{{ url_for('static', filename='upload/' + produk.foto) }}" class="img-fluid product-img" alt="{{ produk.nama_produk }}">
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <span class="kategori-badge mb-3 d-inline-block">{{ produk.nama_kategori }}</span>
+                <h1 class="nama-produk mb-2">{{ produk.nama_produk }}</h1>
+                
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rating-box text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <span class="fw-bold text-dark fs-6">{{ "%.1f"|format(rating_data.rata_rating or 0) }}</span>
+                        <span class="text-muted" style="font-size:13px;">/ 5.0 Rating Efektif</span>
+                    </div>
+                    <div class="text-muted opacity-50">|</div>
+                    <div class="small fw-medium text-secondary">
+                        <i class="bi bi-box-seam me-1"></i> Tersedia <strong class="text-dark">{{ produk.stok }}</strong> unit barang
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-4 mb-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+                    <span class="text-muted small d-block mb-1 fw-medium">Harga Spesial Online</span>
+                    <h2 class="harga-display m-0">Rp {{ "{:,}".format(produk.harga) }}</h2>
+                </div>
+
+                <h6 class="fw-bold text-dark mb-2">Spesifikasi &amp; Deskripsi Produk</h6>
+                <div class="deskripsi-box mb-4">
+                    {{ produk.deskripsi }}
+                </div>
+
+                <hr class="text-muted opacity-25 my-4">
+
+                <form method="POST" action="/tambah_keranjang/{{ produk.id_produk }}">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-sm-4">
+                            <label class="form-label small fw-bold text-secondary">Jumlah Beli</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-hash"></i></span>
+                                <input type="number" name="qty" class="form-control border-start-0 ps-1" value="1" min="1" max="{{ produk.stok }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <button class="btn btn-success w-100 py-3">
+                                <i class="bi bi-cart-plus-fill me-2"></i> Masukkan Ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card main-card p-4 p-md-5">
+        <h4 class="fw-bold text-dark mb-4">
+            <i class="bi bi-chat-left-heart-fill text-danger me-2"></i>Ulasan &amp; Penilaian Pembeli
+        </h4>
+
+        {% if session.get('user_id') %}
+        <div class="p-4 rounded-4 mb-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+            <h6 class="fw-bold text-dark mb-3"><i class="bi bi-pencil-square me-1"></i> Bagikan Pengalaman Belanjamu</h6>
+            
+            <form method="POST" action="/tambah_review/{{ produk.id_produk }}">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <select name="rating" class="form-select" required>
+                            <option value="">Berikan Skor Bintang</option>
+                            <option value="5">⭐⭐⭐⭐⭐ (Sempurna)</option>
+                            <option value="4">⭐⭐⭐⭐ (Bagus)</option>
+                            <option value="3">⭐⭐⭐ (Cukup)</option>
+                            <option value="2">⭐⭐ (Kurang Puas)</option>
+                            <option value="1">⭐ (Kecewa)</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <textarea name="komentar" class="form-control" rows="3" placeholder="Ceritakan detail kualitas barang, kurir, atau respon penjual disini..." required></textarea>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-warning px-4">
+                            <i class="bi bi-send-fill me-1"></i> Kirim Ulasan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="text-muted opacity-25 my-4">
+        {% endif %}
+
+        <div class="d-flex flex-column gap-3 mt-2">
+            {% for r in review %}
+            <div class="review-card shadow-sm">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <div class="reviewer-avatar">
+                        {{ r.nama[:1] | upper }}
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark m-0">{{ r.nama }}</h6>
+                        <small class="text-muted" style="font-size:11px;">
+                            <i class="bi bi-calendar3 me-1"></i> Terverifikasi pada {{ r.created_at }}
+                        </small>
+                    </div>
+                    <div class="ms-auto text-warning fs-6">
+                        {% for i in range(r.rating) %}
+                            <i class="bi bi-star-fill"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+                <p class="m-0 text-secondary small" style="line-height: 1.5; padding-left: 53px;">
+                    "{{ r.komentar }}"
+                </p>
+            </div>
+            {% else %}
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-chat-square-dots fs-2 d-block mb-2 opacity-50"></i>
+                <p class="small m-0">Belum ada ulasan untuk produk ini. Jadilah yang pertama memberikan review!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
